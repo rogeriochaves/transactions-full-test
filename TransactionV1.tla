@@ -9,21 +9,20 @@ VARIABLE balances, msgs
 Init == balances = initialBalances
      /\ msgs = {}
 
-DbUpdate == msgs /= {}
-            /\ LET msg == CHOOSE msg \in msgs : TRUE
-               IN msgs' = msgs \ {msg}
-               /\ balances' = [ balances EXCEPT ![msg.account] = msg.amount ]
-               
 TransferMoney(from, to, amount) == balances[from] - amount >= 0 (* Account needs to have enough balance, from property testing *)
                                 /\ msgs' = msgs \union { [ account |-> from, amount |-> balances[from] - amount ],
                                                          [ account |-> to, amount |-> balances[to] + amount ] }
                                 /\ UNCHANGED <<balances>>
+                                
+DbUpdate == msgs /= {}
+            /\ LET msg == CHOOSE msg \in msgs : TRUE
+               IN msgs' = msgs \ {msg}
+               /\ balances' = [ balances EXCEPT ![msg.account] = msg.amount ]
 
 Next == DbUpdate
      \/ /\ \E from, to \in accounts :
            from /= to /\ \E amount \in 1..balances[from] : (* Send only positive integers, from property testing *)
              TransferMoney(from, to, amount)
-        /\ \A acc \in accounts : balances[acc] > 0
 
 (***************************************************************************)
 (*                                 HELPERS                                 *)
@@ -48,5 +47,5 @@ TotalMoneyStable == SumBalance(accounts, initialBalances, 0) = SumBalance(accoun
 
 =============================================================================
 \* Modification History
-\* Last modified Sun Aug 08 23:03:16 CEST 2021 by rchaves
+\* Last modified Sun Aug 08 23:38:25 CEST 2021 by rchaves
 \* Created Sun Aug 08 21:06:07 CEST 2021 by rchaves
