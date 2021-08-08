@@ -16,6 +16,21 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>TransactionV1.tla</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TransactionV1.tla</locationURI>
+		</link>
+		<link>
+			<name>TransactionV2.tla</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TransactionV2.tla</locationURI>
+		</link>
+		<link>
+			<name>TransactionV3.tla</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/TransactionV3.tla</locationURI>
+		</link>
+		<link>
 			<name>formal.tla</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/formal.tla</locationURI>

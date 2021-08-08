@@ -939,7 +939,7 @@
 \begin{document}
 \tlatex
 \setboolean{shading}{true}
-\@x{}\moduleLeftDash\@xx{ {\MODULE} formal}\moduleRightDash\@xx{}%
+\@x{}\moduleLeftDash\@xx{ {\MODULE} TransactionV2}\moduleRightDash\@xx{}%
 \@pvspace{8.0pt}%
 \@x{ {\EXTENDS} Integers ,\, Sequences}%
 \@pvspace{8.0pt}%
@@ -954,8 +954,9 @@
  \@x{\@s{61.96} \.{\land} \.{\LET} msg \.{\defeq} {\CHOOSE} msg \.{\in} msgs
  \.{:} {\TRUE}}%
 \@x{\@s{73.07} \.{\IN} msgs \.{'} \.{=} msgs \.{\,\backslash\,} \{ msg \}}%
- \@x{\@s{73.07} \.{\land}\@s{9.28} balances \.{'} \.{=} [ balances {\EXCEPT}
- {\bang} [ msg . account ] \.{=} msg . amount ]}%
+ \@x{\@s{73.07} \.{\land}\@s{9.28} balances \.{'} \.{=} [ [ balances {\EXCEPT}
+ {\bang} [ msg . from ] \.{=} msg . amount\_from ]}%
+\@x{\@s{187.34} {\EXCEPT} {\bang} [ msg . to ] \.{=} msg . amount\_to ]}%
 \@pvspace{8.0pt}%
  \@x{ TransferMoney ( from ,\, to ,\, amount ) \.{\defeq} balances [ from ]
  \.{-} amount \.{\geq} 0}%
@@ -963,17 +964,19 @@
  Account needs to have enough balance, from property testing
 }%
 \@xx{}%
- \@x{\@s{150.39} \.{\land}\@s{7.77} msgs \.{'} \.{=} msgs \.{\cup} \{ [
- account \.{\mapsto} from ,\, amount \.{\mapsto} balances [ from ] \.{-}
- amount ] ,\,}%
- \@x{\@s{245.08} [ account \.{\mapsto} to ,\, amount \.{\mapsto} balances [ to
- ] \.{+} amount ] \}}%
+ \@x{\@s{150.39} \.{\land}\@s{7.77} msgs \.{'} \.{=} msgs \.{\cup} \{ [ from
+ \.{\mapsto} from}%
+\@x{\@s{245.08} ,\, to \.{\mapsto} to}%
+\@x{\@s{245.08} ,\, amount\_from \.{\mapsto} balances [ from ] \.{-} amount}%
+\@x{\@s{245.08} ,\, amount\_to \.{\mapsto} balances [ to ] \.{+} amount}%
+\@x{\@s{245.08} ] \}}%
 \@x{\@s{150.39} \.{\land}\@s{7.77} {\UNCHANGED} {\langle} balances {\rangle}}%
 \@pvspace{8.0pt}%
 \@x{ Next \.{\defeq} DbUpdate}%
  \@x{\@s{20.94} \.{\lor}\@s{7.77} \.{\land} \E\, from ,\, to \.{\in} accounts
  \.{:}}%
-\@x{\@s{50.94} \E\, amount \.{\in} 1 \.{\dotdot} balances [ from ] \.{:}}%
+ \@x{\@s{50.94} from \.{\neq} to \.{\land} \E\, amount \.{\in} 1 \.{\dotdot}
+ balances [ from ] \.{:}}%
 \@y{\@s{0}%
  Send only positive integers, from property testing
 }%
@@ -988,19 +991,23 @@ INVARIANTS
 \end{cpar}%
 \end{lcom}%
 \@pvspace{8.0pt}%
- \@x{ TypeOK \.{\defeq} msgs \.{\subseteq} [ account \.{:} accounts ,\, amount
- \.{:} Int}%
-\@y{\@s{0}%
- Amount has to be an integer, from static typing
-}%
-\@xx{ ]}%
+ \@x{ TypeOK \.{\defeq} msgs \.{\subseteq} [ from \.{:} accounts ,\, to \.{:}
+ accounts ,\, amount\_from \.{:} Int ,\, amount\_to \.{:} Int ]}%
 \@pvspace{8.0pt}%
  \@x{ BalancesAlwaysPositive \.{\defeq} \A\, acc \.{\in} accounts \.{:}
  balances [ acc ] \.{\geq} 0}%
 \@pvspace{8.0pt}%
- \@x{ TotalMoneyStable \.{\defeq} \.{\LET} Sum ( balance ) \.{\defeq} [ x ,\,
- y \.{\in} accounts \.{\mapsto} balance [ x ] \.{+} balance [ y ] ]}%
-\@x{\@s{97.09} \.{\IN} Sum ( initialBalances ) \.{=} Sum ( balances )}%
+\@x{ {\RECURSIVE} SumBalance ( \_ ,\, \_ ,\, \_ )}%
+\@pvspace{8.0pt}%
+\@x{ SumBalance ( accs ,\, bal ,\, total ) \.{\defeq} {\IF} accs \.{=} \{ \}}%
+\@x{\@s{144.88} \.{\THEN} total}%
+ \@x{\@s{144.88} \.{\ELSE} \.{\LET} acc \.{\defeq} {\CHOOSE} acc \.{\in} accs
+ \.{:} {\TRUE}}%
+ \@x{\@s{176.19} \.{\IN} SumBalance ( accs \.{\,\backslash\,} \{ acc \} ,\,
+ bal ,\, total \.{+} bal [ acc ] )}%
+\@pvspace{8.0pt}%
+ \@x{ TotalMoneyStable \.{\defeq} SumBalance ( accounts ,\, initialBalances
+ ,\, 0 ) \.{=} SumBalance ( accounts ,\, balances ,\, 0 )}%
 \@pvspace{8.0pt}%
 \@x{}\bottombar\@xx{}%
 \setboolean{shading}{false}
@@ -1010,11 +1017,11 @@ INVARIANTS
 \end{cpar}%
 \begin{cpar}{0}{F}{F}{0}{0}{}%
  \ensuremath{\.{\,\backslash\,}}* Last modified Sun \ensuremath{Aug} 08
- 20:56:01 \ensuremath{CEST} 2021 by \ensuremath{rchaves
+ 22:59:55 \ensuremath{CEST} 2021 by \ensuremath{rchaves
 }%
 \end{cpar}%
 \begin{cpar}{0}{F}{F}{0}{0}{}%
- \ensuremath{\.{\,\backslash\,}}* Created Sat \ensuremath{Aug} 07 23:59:18
+ \ensuremath{\.{\,\backslash\,}}* Created Sun \ensuremath{Aug} 08 21:06:07
  \ensuremath{CEST} 2021 by \ensuremath{rchaves
 }%
 \end{cpar}%
