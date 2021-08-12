@@ -1,8 +1,8 @@
 ------------------------------- MODULE formal -------------------------------
 
-EXTENDS TransactionV3
+EXTENDS TransactionV2
 
 =============================================================================
 \* Modification History
-\* Last modified Sun Aug 08 23:41:01 CEST 2021 by rchaves
+\* Last modified Thu Aug 12 18:13:29 CEST 2021 by rchaves
 \* Created Sat Aug 07 23:59:18 CEST 2021 by rchaves

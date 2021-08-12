@@ -1,0 +1,22 @@
+{
+  "name": "transactions-full-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/better-sqlite3": "^5.4.3",
+    "@types/jest": "^27.0.0",
+    "fast-check": "^2.17.0",
+    "jest": "^27.0.6",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "better-sqlite3": "^7.4.3",
+    "sqlite-async": "^1.1.1"
+  }
+}
