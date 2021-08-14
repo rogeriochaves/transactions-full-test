@@ -2,15 +2,15 @@
 EXTENDS formal, TLC
 
 \* CONSTANT definitions @modelParameterConstants:0initialBalances
-const_1628784813507156000 == 
-[acc \in accounts |-> 2]
+const_162885458785663000 == 
+[acc \in accounts |-> 1]
 ----
 
 \* CONSTANT definitions @modelParameterConstants:1accounts
-const_1628784813507157000 == 
-{"Alice", "Bob"}
+const_162885458785664000 == 
+{"Alice", "Bob", "Carlos"}
 ----
 
 =============================================================================
 \* Modification History
-\* Created Thu Aug 12 18:13:33 CEST 2021 by rchaves
+\* Created Fri Aug 13 13:36:27 CEST 2021 by rchaves

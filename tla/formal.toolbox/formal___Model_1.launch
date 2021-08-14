@@ -12,7 +12,7 @@
     <stringAttribute key="distributedTLC" value="off"/>
     <stringAttribute key="distributedTLCVMArgs" value=""/>
     <intAttribute key="fpBits" value="1"/>
-    <intAttribute key="fpIndex" value="26"/>
+    <intAttribute key="fpIndex" value="106"/>
     <booleanAttribute key="fpIndexRandom" value="true"/>
     <intAttribute key="maxHeapSize" value="25"/>
     <intAttribute key="maxSetSize" value="10"/>
@@ -33,8 +33,8 @@
     <intAttribute key="modelEditorOpenTabs" value="12"/>
     <stringAttribute key="modelExpressionEval" value=""/>
     <listAttribute key="modelParameterConstants">
-        <listEntry value="initialBalances;;[acc \in accounts |-&gt; 2];0;0"/>
-        <listEntry value="accounts;;{&quot;Alice&quot;, &quot;Bob&quot;};0;1"/>
+        <listEntry value="initialBalances;;[acc \in accounts |-&gt; 1];0;0"/>
+        <listEntry value="accounts;;{&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carlos&quot;};0;0"/>
     </listAttribute>
     <intAttribute key="modelVersion" value="20191005"/>
     <intAttribute key="numberOfWorkers" value="4"/>
@@ -45,7 +45,9 @@
     <intAttribute key="simuSeed" value="-1"/>
     <stringAttribute key="specName" value="formal"/>
     <stringAttribute key="tlcResourcesProfile" value="local custom"/>
-    <listAttribute key="traceExploreExpressions"/>
+    <listAttribute key="traceExploreExpressions">
+        <listEntry value="1SumBalance(accounts, initialBalances, 0)"/>
+    </listAttribute>
     <setAttribute key="traceExploreExtends"/>
     <stringAttribute key="view" value=""/>
     <booleanAttribute key="visualizeStateGraph" value="false"/>

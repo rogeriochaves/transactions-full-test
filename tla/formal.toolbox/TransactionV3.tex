@@ -939,7 +939,7 @@
 \begin{document}
 \tlatex
 \setboolean{shading}{true}
-\@x{}\moduleLeftDash\@xx{ {\MODULE} TransactionV2}\moduleRightDash\@xx{}%
+\@x{}\moduleLeftDash\@xx{ {\MODULE} TransactionV3}\moduleRightDash\@xx{}%
 \@pvspace{8.0pt}%
 \@x{ {\EXTENDS} Integers ,\, Sequences}%
 \@pvspace{8.0pt}%
@@ -958,7 +958,11 @@
 }%
 \@xx{}%
  \@x{\@s{150.39} \.{\land} msgs \.{'} \.{=} msgs \.{\cup} \{ [ from
- \.{\mapsto} from ,\, to \.{\mapsto} to ,\, amount \.{\mapsto} amount ] \}}%
+ \.{\mapsto} from}%
+\@x{\@s{237.30} ,\, to \.{\mapsto} to}%
+\@x{\@s{237.30} ,\, amount\_from \.{\mapsto} balances [ from ] \.{-} amount}%
+\@x{\@s{237.30} ,\, amount\_to \.{\mapsto} balances [ to ] \.{+} amount}%
+\@x{\@s{237.30} ] \}}%
 \@x{\@s{150.39} \.{\land} {\UNCHANGED} {\langle} balances {\rangle}}%
 \@pvspace{8.0pt}%
 \@x{ DbUpdate \.{\defeq} msgs \.{\neq} \{ \}}%
@@ -966,9 +970,8 @@
  \.{:} {\TRUE}}%
 \@x{\@s{73.07} \.{\IN} msgs \.{'} \.{=} msgs \.{\,\backslash\,} \{ msg \}}%
  \@x{\@s{73.07} \.{\land}\@s{9.28} balances \.{'} \.{=} [ [ balances {\EXCEPT}
- {\bang} [ msg . from ] \.{=} balances [ msg . from ] \.{-} msg . amount ]}%
- \@x{\@s{187.34} {\EXCEPT} {\bang} [ msg . to ] \.{=} balances [ msg . to ]
- \.{+} msg . amount ]}%
+ {\bang} [ msg . from ] \.{=} msg . amount\_from ]}%
+\@x{\@s{187.34} {\EXCEPT} {\bang} [ msg . to ] \.{=} msg . amount\_to ]}%
 \@pvspace{8.0pt}%
 \@x{ Next \.{\defeq} DbUpdate}%
  \@x{\@s{20.94} \.{\lor}\@s{7.77} \.{\land} \E\, from ,\, to \.{\in} accounts
@@ -1003,7 +1006,7 @@ INVARIANTS
 \end{lcom}%
 \@pvspace{8.0pt}%
  \@x{ TypeOK \.{\defeq} msgs \.{\subseteq} [ from \.{:} accounts ,\, to \.{:}
- accounts ,\, amount \.{:} Int ]}%
+ accounts ,\, amount\_from \.{:} Int ,\, amount\_to \.{:} Int ]}%
 \@pvspace{8.0pt}%
  \@x{ BalancesAlwaysPositive \.{\defeq} \A\, acc \.{\in} accounts \.{:}
  balances [ acc ] \.{\geq} 0}%
@@ -1019,7 +1022,7 @@ INVARIANTS
 \end{cpar}%
 \begin{cpar}{0}{F}{F}{0}{0}{}%
  \ensuremath{\.{\,\backslash\,}}* Last modified \ensuremath{Fri}
- \ensuremath{Aug} 13 13:10:53 \ensuremath{CEST} 2021 by \ensuremath{rchaves
+ \ensuremath{Aug} 13 13:19:29 \ensuremath{CEST} 2021 by \ensuremath{rchaves
 }%
 \end{cpar}%
 \begin{cpar}{0}{F}{F}{0}{0}{}%

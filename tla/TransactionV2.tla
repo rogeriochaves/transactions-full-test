@@ -9,7 +9,8 @@ VARIABLE balances, msgs
 Init == balances = initialBalances
      /\ msgs = {}
 
-TransferMoney(from, to, amount) == balances[from] - amount >= 0 (* Account needs to have enough balance, from property testing *)
+TransferMoney(from, to, amount) == balances[from] >= amount
+                                (* Account needs to have enough balance, from property testing *)
                                 /\ msgs' = msgs \union { [ from |-> from, to |-> to, amount |-> amount ] }
                                 /\ UNCHANGED <<balances>>
 
@@ -47,5 +48,5 @@ TotalMoneyStable == SumBalance(accounts, initialBalances, 0) = SumBalance(accoun
 
 =============================================================================
 \* Modification History
-\* Last modified Sun Aug 08 23:38:20 CEST 2021 by rchaves
+\* Last modified Fri Aug 13 13:10:53 CEST 2021 by rchaves
 \* Created Sun Aug 08 21:06:07 CEST 2021 by rchaves

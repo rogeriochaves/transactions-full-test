@@ -9,9 +9,12 @@ VARIABLE balances, msgs
 Init == balances = initialBalances
      /\ msgs = {}
 
-TransferMoney(from, to, amount) == balances[from] - amount >= 0 (* Account needs to have enough balance, from property testing *)
-                                /\ msgs' = msgs \union { [ account |-> from, amount |-> balances[from] - amount ],
-                                                         [ account |-> to, amount |-> balances[to] + amount ] }
+TransferMoney(from, to, amount) == balances[from] >= amount
+                                (* Account needs to have enough balance, from property testing *)
+                                /\ msgs' = msgs \union {
+                                    [ account |-> from, amount |-> balances[from] - amount ],
+                                    [ account |-> to, amount |-> balances[to] + amount ]
+                                 }
                                 /\ UNCHANGED <<balances>>
                                 
 DbUpdate == msgs /= {}
@@ -39,7 +42,7 @@ SumBalance(accs, bal, total) == IF accs = {}
 (*                                INVARIANTS                               *)
 (***************************************************************************)
 
-TypeOK == msgs \subseteq [ account : accounts, amount : Int (* Amount has to be an integer, from static typing *) ]
+TypeOK == msgs \subseteq [ account : accounts, amount : Int (* Amount has to be an number, from static typing *) ]
 
 BalancesAlwaysPositive == \A acc \in accounts : balances[acc] >= 0
 
@@ -47,5 +50,5 @@ TotalMoneyStable == SumBalance(accounts, initialBalances, 0) = SumBalance(accoun
 
 =============================================================================
 \* Modification History
-\* Last modified Sun Aug 08 23:38:25 CEST 2021 by rchaves
+\* Last modified Fri Aug 13 12:15:31 CEST 2021 by rchaves
 \* Created Sun Aug 08 21:06:07 CEST 2021 by rchaves

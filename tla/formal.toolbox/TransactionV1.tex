@@ -939,7 +939,7 @@
 \begin{document}
 \tlatex
 \setboolean{shading}{true}
-\@x{}\moduleLeftDash\@xx{ {\MODULE} TransactionV2}\moduleRightDash\@xx{}%
+\@x{}\moduleLeftDash\@xx{ {\MODULE} TransactionV1}\moduleRightDash\@xx{}%
 \@pvspace{8.0pt}%
 \@x{ {\EXTENDS} Integers ,\, Sequences}%
 \@pvspace{8.0pt}%
@@ -957,18 +957,20 @@
  Account needs to have enough balance, from property testing
 }%
 \@xx{}%
- \@x{\@s{150.39} \.{\land} msgs \.{'} \.{=} msgs \.{\cup} \{ [ from
- \.{\mapsto} from ,\, to \.{\mapsto} to ,\, amount \.{\mapsto} amount ] \}}%
+\@x{\@s{150.39} \.{\land} msgs \.{'} \.{=} msgs \.{\cup} \{}%
+ \@x{\@s{165.60} [ account \.{\mapsto} from ,\, amount \.{\mapsto} balances [
+ from ] \.{-} amount ] ,\,}%
+ \@x{\@s{165.60} [ account \.{\mapsto} to ,\, amount \.{\mapsto} balances [ to
+ ] \.{+} amount ]}%
+\@x{\@s{154.49} \}}%
 \@x{\@s{150.39} \.{\land} {\UNCHANGED} {\langle} balances {\rangle}}%
 \@pvspace{8.0pt}%
 \@x{ DbUpdate \.{\defeq} msgs \.{\neq} \{ \}}%
  \@x{\@s{61.96} \.{\land} \.{\LET} msg \.{\defeq} {\CHOOSE} msg \.{\in} msgs
  \.{:} {\TRUE}}%
 \@x{\@s{73.07} \.{\IN} msgs \.{'} \.{=} msgs \.{\,\backslash\,} \{ msg \}}%
- \@x{\@s{73.07} \.{\land}\@s{9.28} balances \.{'} \.{=} [ [ balances {\EXCEPT}
- {\bang} [ msg . from ] \.{=} balances [ msg . from ] \.{-} msg . amount ]}%
- \@x{\@s{187.34} {\EXCEPT} {\bang} [ msg . to ] \.{=} balances [ msg . to ]
- \.{+} msg . amount ]}%
+ \@x{\@s{73.07} \.{\land}\@s{9.28} balances \.{'} \.{=} [ balances {\EXCEPT}
+ {\bang} [ msg . account ] \.{=} msg . amount ]}%
 \@pvspace{8.0pt}%
 \@x{ Next \.{\defeq} DbUpdate}%
  \@x{\@s{20.94} \.{\lor}\@s{7.77} \.{\land} \E\, from ,\, to \.{\in} accounts
@@ -1002,8 +1004,12 @@ INVARIANTS
 \end{cpar}%
 \end{lcom}%
 \@pvspace{8.0pt}%
- \@x{ TypeOK \.{\defeq} msgs \.{\subseteq} [ from \.{:} accounts ,\, to \.{:}
- accounts ,\, amount \.{:} Int ]}%
+ \@x{ TypeOK \.{\defeq} msgs \.{\subseteq} [ account \.{:} accounts ,\, amount
+ \.{:} Int}%
+\@y{\@s{0}%
+ Amount has to be an number, from static typing
+}%
+\@xx{ ]}%
 \@pvspace{8.0pt}%
  \@x{ BalancesAlwaysPositive \.{\defeq} \A\, acc \.{\in} accounts \.{:}
  balances [ acc ] \.{\geq} 0}%
@@ -1019,7 +1025,7 @@ INVARIANTS
 \end{cpar}%
 \begin{cpar}{0}{F}{F}{0}{0}{}%
  \ensuremath{\.{\,\backslash\,}}* Last modified \ensuremath{Fri}
- \ensuremath{Aug} 13 13:10:53 \ensuremath{CEST} 2021 by \ensuremath{rchaves
+ \ensuremath{Aug} 13 12:15:31 \ensuremath{CEST} 2021 by \ensuremath{rchaves
 }%
 \end{cpar}%
 \begin{cpar}{0}{F}{F}{0}{0}{}%

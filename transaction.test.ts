@@ -1,6 +1,6 @@
-import * as sqlite3 from 'better-sqlite3';
+import * as sqlite3 from "better-sqlite3";
 import * as transaction from "./transaction";
-
+import fc from "fast-check";
 // const fc = require('fast-check');
 
 // const contains = (text, pattern) => text.indexOf(pattern) >= 0;
@@ -24,17 +24,18 @@ describe("transferMoney", () => {
     expect(bob.amount).toBe(15);
   });
 
-  // it("sending undefined does not transfer any amount", () => {
-  //   transaction.transferMoney(db, { from: 'Alice', to: 'Bob', amount: undefined });
+  it('ends up with more money on the receiving account', () => {
+    fc.assert(fc.property(fc.integer(), amount => {
+      db.prepare("UPDATE balance SET amount = 10").run();
 
-  //   const alice = db.get("SELECT amount FROM balance WHERE account = 'Alice'");
-  //   expect(alice.amount).toBe(10);
+      try {
+        transaction.transferMoney(db, { from: 'Alice', to: 'Bob', amount });
+      } catch (_) { return; }
 
-  //   const bob = db.get("SELECT amount FROM balance WHERE account = 'Bob'");
-  //   expect(bob.amount).toBe(15);
-  // });
-
-  // it('should always contain itself', () => {
-  //   fc.assert(fc.property(fc.number(), text => contains(text, text)));
-  // });
+      const alice = db.prepare("SELECT amount FROM balance WHERE account = 'Alice'").get();
+      expect(alice.amount).toBeGreaterThanOrEqual(0);
+      const bob = db.prepare("SELECT amount FROM balance WHERE account = 'Bob'").get();
+      expect(bob.amount).toBeGreaterThan(alice.amount);
+    }));
+  });
 });
