@@ -1,9 +1,6 @@
 import * as sqlite3 from "better-sqlite3";
 import * as transaction from "./transaction";
 import fc from "fast-check";
-// const fc = require('fast-check');
-
-// const contains = (text, pattern) => text.indexOf(pattern) >= 0;
 
 describe("transferMoney", () => {
   let db : sqlite3.Database;
